@@ -1,0 +1,752 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Welcome Back | Roomie Radar{% endblock %}
+
+{% block start %}
+
+<style>
+    :root {
+        --primary: #1f2937;
+        --primary-hover: #111827;
+        --secondary: #667eea;
+        --secondary-hover: #5a6fd8;
+        --accent: #f59e0b;
+        --accent-hover: #d97706;
+        --success: #10b981;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --white: #ffffff;
+        --blue-50: #eff6ff;
+        --blue-100: #dbeafe;
+        --blue-500: #3b82f6;
+        --blue-600: #2563eb;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --border-radius: 0.5rem;
+        --border-radius-lg: 0.75rem;
+        --border-radius-xl: 1rem;
+        --border-radius-2xl: 1.5rem;
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    .login-container {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    /* Left Side - Image Section */
+    .left-section {
+        flex: 1;
+        background: var(--gradient-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .left-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        animation: backgroundFloat 20s ease-in-out infinite;
+    }
+
+    @keyframes backgroundFloat {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+    }
+
+    .illustration-container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 450px;
+    }
+
+    .illustration {
+        width: 100%;
+        max-width: 380px;
+        height: auto;
+        border-radius: var(--border-radius-2xl);
+        box-shadow: var(--shadow-2xl);
+        margin-bottom: 2.5rem;
+        animation: float 6s ease-in-out infinite;
+        border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(1deg); }
+    }
+
+    .left-content h2 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 1rem;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        letter-spacing: -0.025em;
+    }
+
+    .left-content p {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 400;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        line-height: 1.7;
+    }
+
+    /* Floating Elements */
+    .floating-element {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        animation: floatAround 15s ease-in-out infinite;
+    }
+
+    .floating-element:nth-child(1) {
+        width: 60px;
+        height: 60px;
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .floating-element:nth-child(2) {
+        width: 40px;
+        height: 40px;
+        top: 20%;
+        right: 15%;
+        animation-delay: 2s;
+    }
+
+    .floating-element:nth-child(3) {
+        width: 80px;
+        height: 80px;
+        bottom: 15%;
+        left: 15%;
+        animation-delay: 4s;
+    }
+
+    @keyframes floatAround {
+        0%, 100% { transform: translateY(0px) translateX(0px); }
+        33% { transform: translateY(-20px) translateX(10px); }
+        66% { transform: translateY(10px) translateX(-10px); }
+    }
+
+    /* Right Side - Login Form */
+    .right-section {
+        flex: 1;
+        background: var(--white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        position: relative;
+    }
+
+    .right-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: var(--gradient-primary);
+        border-radius: 0 0 0 100px;
+        opacity: 0.1;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 420px;
+        padding: 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .login-header h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.025em;
+    }
+
+    .login-header p {
+        font-size: 1.125rem;
+        color: var(--gray-600);
+        font-weight: 400;
+    }
+
+    .login-messages {
+        margin-bottom: 1.5rem;
+    }
+
+    .login-message {
+        padding: 1rem 1.25rem;
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border: 1px solid #fecaca;
+        border-radius: var(--border-radius-lg);
+        color: #dc2626;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+    }
+
+    .login-form {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 1.75rem;
+        position: relative;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        color: var(--gray-900);
+        background: var(--white);
+        border: 2px solid var(--gray-200);
+        border-radius: var(--border-radius-lg);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: inherit;
+        font-weight: 500;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+    }
+
+    .form-input:hover {
+        border-color: var(--gray-300);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .form-input::placeholder {
+        color: var(--gray-500);
+        font-weight: 400;
+    }
+
+    .forgot-password {
+        text-align: right;
+        margin-bottom: 2rem;
+    }
+
+    .forgot-password a {
+        font-size: 0.875rem;
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+    .forgot-password a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--secondary);
+        transition: width 0.3s ease;
+    }
+
+    .forgot-password a:hover::after {
+        width: 100%;
+    }
+
+    .forgot-password a:hover {
+        color: var(--secondary-hover);
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--white);
+        background: var(--gradient-primary);
+        border: none;
+        border-radius: var(--border-radius-lg);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: inherit;
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .login-button:hover::before {
+        left: 100%;
+    }
+
+    .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 2rem 0;
+        color: var(--gray-500);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gray-300), transparent);
+    }
+
+    .divider span {
+        padding: 0 1.5rem;
+        background: var(--white);
+        color: var(--gray-600);
+    }
+
+    .google-button {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--gray-700);
+        background: var(--white);
+        border: 2px solid var(--gray-200);
+        border-radius: var(--border-radius-lg);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .google-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.02), transparent);
+        transition: left 0.5s;
+    }
+
+    .google-button:hover::before {
+        left: 100%;
+    }
+
+    .google-button:hover {
+        background: var(--gray-50);
+        border-color: var(--gray-300);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+    }
+
+    .google-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .login-footer {
+        text-align: center;
+        font-size: 1rem;
+        color: var(--gray-600);
+        font-weight: 500;
+        margin-top: 1rem;
+        padding: 1rem 0;
+    }
+
+    .login-footer a {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        position: relative;
+        font-size: 1.1rem;
+    }
+
+    .login-footer a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--gradient-accent);
+        transition: width 0.3s ease;
+    }
+
+    .login-footer a:hover::after {
+        width: 100%;
+    }
+
+    .login-footer a:hover {
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        transform: scale(1.05);
+    }
+
+    /* Admin Login Footer */
+    .admin-login-footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--gray-200);
+    }
+
+    .admin-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--gray-600);
+        background: var(--gray-50);
+        border: 2px solid var(--gray-200);
+        border-radius: var(--border-radius-lg);
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .admin-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+        transition: left 0.5s;
+    }
+
+    .admin-link:hover::before {
+        left: 100%;
+    }
+
+    .admin-link:hover {
+        color: var(--secondary);
+        background: var(--white);
+        border-color: var(--secondary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .admin-link i {
+        font-size: 1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .login-container {
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .left-section {
+            flex: none;
+            min-height: 40vh;
+            padding: 2rem 1rem;
+        }
+
+        .illustration {
+            max-width: 280px;
+            margin-bottom: 2rem;
+        }
+
+        .left-content h2 {
+            font-size: 1.75rem;
+        }
+
+        .left-content p {
+            font-size: 1.125rem;
+        }
+
+        .right-section {
+            flex: none;
+            padding: 2rem 1rem;
+            min-height: 60vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 1rem;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+        }
+
+        .floating-element {
+            display: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .left-section {
+            padding: 1.5rem 1rem;
+            min-height: 35vh;
+        }
+
+        .right-section {
+            padding: 1.5rem 1rem;
+            min-height: 65vh;
+            padding-top: 1rem;
+        }
+
+        .login-card {
+            max-width: none;
+        }
+
+        .form-input,
+        .login-button,
+        .google-button {
+            padding: 0.875rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.75rem;
+        }
+
+        .left-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .left-content p {
+            font-size: 1rem;
+        }
+
+        .login-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-button {
+            margin-bottom: 1.25rem;
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+        }
+
+        .google-button {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    /* Focus States for Accessibility */
+    .login-button:focus,
+    .google-button:focus,
+    .form-input:focus {
+        outline: 2px solid var(--secondary);
+        outline-offset: 2px;
+    }
+
+    /* Loading Animation */
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    /* High Performance */
+    .login-button,
+    .google-button,
+    .form-input,
+    .illustration {
+        will-change: transform;
+    }
+</style>
+
+<div class="login-container">
+    <!-- Left Section - Image -->
+    <div class="left-section">
+        <!-- Floating Elements -->
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        
+        <div class="illustration-container">
+            <img src="https://i.ibb.co/G43KNZ1H/fae303594f4b4ff5c6fc05ae514614aa.jpg" alt="Roommate Illustration" class="illustration" />
+            <div class="left-content">
+                <h2>Find Your Perfect Roommate</h2>
+                <p>Connect with compatible people and discover your ideal living situation with ease</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Section - Login Form -->
+    <div class="right-section">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your account to continue</p>
+            </div>
+
+            <!-- Messages -->
+            {% if messages %}
+                <div class="login-messages">
+                    {% for message in messages %}
+                        <div class="login-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" class="login-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        required
+                        class="form-input"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        required
+                        class="form-input"
+                    />
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="alert('Password reset functionality coming soon!')">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-button">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <button class="google-button" onclick="alert('Google Sign-in coming soon!')">
+                <svg class="google-icon" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Sign in with Google
+            </button>
+
+            <div class="login-footer">
+                New user? <a href="{% url 'register' %}">Create Account</a>
+            </div>
+
+            <!-- Admin Login Link -->
+            <div class="admin-login-footer">
+                <a href="/admin/" class="admin-link" title="Admin Panel Access">
+                    <i class="fas fa-shield-alt"></i> Admin Login
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{% endblock %}

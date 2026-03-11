@@ -1,0 +1,62 @@
+# Git Attributes - Line Ending Configuration
+# This ensures consistent line endings across all platforms
+
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Source code files - always use LF
+*.py text
+*.js text
+*.css text
+*.html text
+*.htm text
+*.xml text
+*.json text
+*.yml text
+*.yaml text
+*.md text
+*.txt text
+*.sh text eol=lf
+
+# Django specific files
+manage.py text
+wsgi.py text
+asgi.py text
+
+# Configuration files
+.gitignore text
+.gitattributes text
+requirements.txt text
+*.cfg text
+*.conf text
+*.ini text
+
+# Documentation
+*.rst text
+
+# Windows batch files - use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files - do not modify
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.db binary
+*.sqlite3 binary
+*.pyc binary
+*.pyo binary
+*.so binary
+*.dll binary
+*.exe binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

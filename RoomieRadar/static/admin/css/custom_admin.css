@@ -1,0 +1,358 @@
+/* ============================================
+   ROOMIE RADAR ADMIN PANEL - CLEAN VERSION
+   ============================================ */
+
+/* ========== NAVBAR STYLING ========== */
+html body .main-header,
+html body .navbar,
+html body .navbar-light {
+    background-color: #b8f3d8 !important;
+    background: #b8f3d8 !important;
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+.navbar .nav-link,
+.navbar a,
+.navbar-brand,
+.navbar-light .navbar-nav .nav-link {
+    color: #000000 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+.navbar i {
+    color: #000000 !important;
+    font-size: 22px !important;
+}
+
+.navbar-brand {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
+}
+
+.navbar-brand img,
+.brand-image {
+    max-height: 50px !important;
+    width: auto !important;
+}
+
+.navbar input,
+.navbar .form-control {
+    color: #000000 !important;
+}
+
+.navbar .dropdown-menu {
+    background-color: #ffffff !important;
+}
+
+.navbar .dropdown-item {
+    color: #000000 !important;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #b8f3d8 !important;
+    color: #000000 !important;
+}
+
+.navbar .nav-link:hover {
+    color: #000000 !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* ========== SIDEBAR STYLING ========== */
+html body .sidebar,
+html body .main-sidebar,
+html body .app-sidebar,
+html body .sidebar-dark-primary,
+html body aside.main-sidebar,
+html body aside.app-sidebar {
+    width: 20% !important;
+    min-width: 20% !important;
+    max-width: 20% !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%) !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 28px !important;
+    padding: 16px 20px !important;
+    margin: 4px 10px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-sidebar .nav-link p {
+    font-size: 28px !important;
+    font-weight: 600 !important;
+}
+
+.nav-icon {
+    font-size: 30px !important;
+    margin-right: 16px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    transform: translateX(5px) !important;
+}
+
+.nav-sidebar .nav-link.active {
+    background-color: #b8f3d8 !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+
+.nav-sidebar .nav-link.active .nav-icon {
+    color: #000000 !important;
+}
+
+.nav-header {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 18px 20px 10px 20px !important;
+}
+
+.brand-link {
+    background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 20px 15px !important;
+}
+
+.brand-text {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 26px !important;
+}
+
+.user-panel {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 18px !important;
+}
+
+.user-panel .info a {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    font-size: 25px !important;
+}
+
+/* ========== CONTENT LAYOUT - NORMAL STATE ========== */
+html body .content-wrapper,
+html body .app-main {
+    margin-left: 20% !important;
+    width: 80% !important;
+    max-width: 80% !important;
+    padding-top: 80px !important;
+    transition: all 0.3s ease !important;
+}
+
+html body .main-header,
+html body .navbar {
+    margin-left: 20% !important;
+    width: 80% !important;
+    max-width: 80% !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* ========== COLLAPSED SIDEBAR STATE ========== */
+body.sidebar-collapse .sidebar,
+body.sidebar-collapse .main-sidebar,
+body.sidebar-collapse .app-sidebar,
+body.sidebar-collapse aside.main-sidebar,
+body.sidebar-collapse aside.app-sidebar,
+.sidebar-mini.sidebar-collapse .sidebar,
+.sidebar-mini.sidebar-collapse .main-sidebar,
+.sidebar-mini.sidebar-collapse .app-sidebar {
+    width: 4.6rem !important;
+    min-width: 4.6rem !important;
+    max-width: 4.6rem !important;
+}
+
+body.sidebar-collapse .content-wrapper,
+body.sidebar-collapse .app-main,
+body.sidebar-collapse .main-header,
+body.sidebar-collapse .navbar,
+.sidebar-mini.sidebar-collapse .content-wrapper,
+.sidebar-mini.sidebar-collapse .app-main,
+.sidebar-mini.sidebar-collapse .main-header,
+.sidebar-mini.sidebar-collapse .navbar {
+    margin-left: 4.6rem !important;
+    width: calc(100% - 4.6rem) !important;
+    max-width: calc(100% - 4.6rem) !important;
+}
+
+body.sidebar-collapse .nav-sidebar .nav-link p,
+body.sidebar-collapse .brand-text,
+body.sidebar-collapse .nav-header,
+body.sidebar-collapse .user-panel .info,
+.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link p,
+.sidebar-mini.sidebar-collapse .brand-text,
+.sidebar-mini.sidebar-collapse .nav-header,
+.sidebar-mini.sidebar-collapse .user-panel .info {
+    display: none !important;
+}
+
+body.sidebar-collapse .nav-icon,
+.sidebar-mini.sidebar-collapse .nav-icon {
+    margin: 0 auto !important;
+}
+
+body.sidebar-collapse .nav-sidebar .nav-link,
+.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link {
+    text-align: center !important;
+    justify-content: center !important;
+}
+
+/* ========== FORCE FULL WIDTH CONTENT ========== */
+body.sidebar-collapse *:not(.sidebar):not(.main-sidebar):not(.app-sidebar):not(aside),
+.sidebar-mini.sidebar-collapse *:not(.sidebar):not(.main-sidebar):not(.app-sidebar):not(aside) {
+    max-width: none !important;
+}
+
+body.sidebar-collapse .app-wrapper,
+.sidebar-mini.sidebar-collapse .app-wrapper {
+    display: block !important;
+}
+
+body.sidebar-collapse .container-fluid,
+body.sidebar-collapse .app-content,
+body.sidebar-collapse #content,
+body.sidebar-collapse #content-main,
+.sidebar-mini.sidebar-collapse .container-fluid,
+.sidebar-mini.sidebar-collapse .app-content,
+.sidebar-mini.sidebar-collapse #content,
+.sidebar-mini.sidebar-collapse #content-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+/* ========== FOOTER REMOVAL ========== */
+#footer,
+.main-footer,
+footer,
+.app-footer {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ========== CONTENT SPACING ========== */
+body,
+html {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#content {
+    margin-top: 0 !important;
+    padding-top: 20px !important;
+}
+
+#content h1,
+.content-header h1 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.content-wrapper {
+    min-height: calc(100vh - 80px) !important;
+    padding-bottom: 20px !important;
+}
+
+/* ========== PAGE HEADINGS ========== */
+#content h1,
+.content-header h1,
+h1 {
+    font-size: 25px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+}
+
+/* Breadcrumb links */
+.breadcrumb,
+.breadcrumb a,
+.breadcrumb-item,
+.breadcrumb-item a {
+    font-size: 25px !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #ffffff !important;
+}
+
+/* ========== PAGE BACKGROUND ========== */
+.content-wrapper,
+.app-main,
+#content,
+body {
+    background: #ffffff !important;
+}
+
+/* Change heading color to dark for white background */
+#content h1,
+.content-header h1,
+h1 {
+    color: #2c3e50 !important;
+}
+
+/* Change breadcrumb to dark for white background */
+.breadcrumb,
+.breadcrumb a,
+.breadcrumb-item,
+.breadcrumb-item a {
+    color: #2c3e50 !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #2c3e50 !important;
+}
+
+/* ========== HIDE RECENT ACTIONS ========== */
+.module#recent-actions-module,
+#recent-actions-module,
+#recent-actions {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ========== LOGO FIX ========== */
+.brand-link img,
+.brand-image,
+.admin-logo,
+img[src*="1707130.png"] {
+    display: block !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+    background: white !important;
+    padding: 5px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.brand-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+}

@@ -1,0 +1,526 @@
+{% extends "base/base.html" %}
+{% block title %}Preferences | Roomie Radar{% endblock %}
+
+{% block start %}
+
+<style>
+    .preferences-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .preferences-header {
+        margin-bottom: 40px;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .back-link {
+        margin-bottom: 24px;
+    }
+
+    .back-link a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: #3b82f6;
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        transition: all 0.3s ease;
+    }
+
+    .back-link a:hover {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        transform: translateX(-4px);
+        color: #2563eb;
+    }
+
+    .header-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .header-subtitle {
+        font-size: 16px;
+        color: #64748b;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .preferences-form {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .preference-section {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease-out;
+        animation-fill-mode: both;
+    }
+
+    .preference-section:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .preference-section:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .preference-section:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .section-icon {
+        font-size: 24px;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        border-radius: 12px;
+        color: white;
+    }
+
+    .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+        letter-spacing: -0.3px;
+    }
+
+    .section-description {
+        font-size: 14px;
+        color: #64748b;
+        margin: 8px 0 0 60px;
+    }
+
+    .mandatory-section .section-icon {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 14px;
+        color: #334155;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .form-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, #e2e8f0, transparent);
+        margin-left: 8px;
+    }
+
+    .required-marker {
+        color: #ef4444;
+        font-size: 12px;
+    }
+
+    .form-select,
+    .form-input {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 15px;
+        color: #1e293b;
+        background: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 16px center;
+        padding-right: 40px;
+    }
+
+    .form-input {
+        background-image: none;
+        padding-right: 16px;
+    }
+
+    .form-select:focus,
+    .form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        background-color: #ffffff;
+    }
+
+    .form-select:hover,
+    .form-input:hover {
+        border-color: #cbd5e1;
+    }
+
+    .save-button-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+    }
+
+    .save-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 32px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #ffffff;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .save-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .save-button:hover::before {
+        left: 100%;
+    }
+
+    .save-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .save-button:active {
+        transform: translateY(0);
+    }
+
+    .save-button-icon {
+        font-size: 18px;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .preferences-container {
+            padding: 12px;
+        }
+
+        .header-title {
+            font-size: 28px;
+        }
+
+        .preference-section {
+            padding: 24px 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .section-description {
+            margin-left: 0;
+        }
+
+        .save-button-container {
+            justify-content: stretch;
+        }
+
+        .save-button {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-title {
+            font-size: 24px;
+        }
+
+        .preference-section {
+            padding: 20px 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<div class="preferences-container">
+    <div class="preferences-header">
+        <div class="back-link">
+            <a href="/with-roommate/">
+                <span>←</span>
+                <span>Back to Roommate Dashboard</span>
+            </a>
+        </div>
+
+        <h1 class="header-title">
+            <span>🧾</span>
+            <span>Roommate Preferences</span>
+        </h1>
+        <p class="header-subtitle">
+            Set your preferences carefully. These will be used to find compatible roommates who match your lifestyle and needs.
+        </p>
+    </div>
+
+    <form method="POST" class="preferences-form">
+        {% csrf_token %}
+
+        <!-- Mandatory Preferences Section -->
+        <div class="preference-section mandatory-section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <div>
+                    <h2 class="section-title">Mandatory Preferences</h2>
+                    <p class="section-description">These preferences are required for roommate matching</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">
+                        Gender
+                        <span class="required-marker">*</span>
+                    </label>
+                    <select name="gender" class="form-select" required>
+                        <option value="Male" {% if prefs.gender == "Male" %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if prefs.gender == "Female" %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Room Sharing
+                        <span class="required-marker">*</span>
+                    </label>
+                    <select name="room_sharing" class="form-select" required>
+                        <option value="2" {% if prefs.room_sharing == 2 %}selected{% endif %}>2 Sharing</option>
+                        <option value="3" {% if prefs.room_sharing == 3 %}selected{% endif %}>3 Sharing</option>
+                        <option value="4" {% if prefs.room_sharing == 4 %}selected{% endif %}>4 Sharing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        AC Preference
+                        <span class="required-marker">*</span>
+                    </label>
+                    <select name="ac_preference" class="form-select" required>
+                        <option value="AC" {% if prefs.ac_preference == "AC" %}selected{% endif %}>AC</option>
+                        <option value="NON-AC" {% if prefs.ac_preference == "NON-AC" %}selected{% endif %}>Non-AC</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lifestyle Preferences Section -->
+        <div class="preference-section">
+            <div class="section-header">
+                <div class="section-icon">🛏</div>
+                <div>
+                    <h2 class="section-title">Lifestyle Preferences</h2>
+                    <p class="section-description">Help us understand your lifestyle and habits for better matching</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Bedtime</label>
+                    <select name="bedtime" class="form-select">
+                        <option value="Early" {% if prefs.bedtime == "Early" %}selected{% endif %}>Early</option>
+                        <option value="Late" {% if prefs.bedtime == "Late" %}selected{% endif %}>Late</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Cleanliness</label>
+                    <select name="cleanliness" class="form-select">
+                        <option value="Low" {% if prefs.cleanliness == "Low" %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if prefs.cleanliness == "Medium" %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if prefs.cleanliness == "High" %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Noise Tolerance</label>
+                    <select name="noise_tolerance" class="form-select">
+                        <option value="Low" {% if prefs.noise_tolerance == "Low" %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if prefs.noise_tolerance == "Medium" %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if prefs.noise_tolerance == "High" %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Guest Frequency</label>
+                    <select name="guest_frequency" class="form-select">
+                        <option value="Rare" {% if prefs.guest_frequency == "Rare" %}selected{% endif %}>Rare</option>
+                        <option value="Sometimes" {% if prefs.guest_frequency == "Sometimes" %}selected{% endif %}>Sometimes</option>
+                        <option value="Often" {% if prefs.guest_frequency == "Often" %}selected{% endif %}>Often</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Smoking</label>
+                    <select name="smoking" class="form-select">
+                        <option value="No" {% if prefs.smoking == "No" %}selected{% endif %}>No</option>
+                        <option value="Occasionally" {% if prefs.smoking == "Occasionally" %}selected{% endif %}>Occasionally</option>
+                        <option value="Yes" {% if prefs.smoking == "Yes" %}selected{% endif %}>Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Food Type</label>
+                    <select name="food_type" class="form-select">
+                        <option value="Veg" {% if prefs.food_type == "Veg" %}selected{% endif %}>Veg</option>
+                        <option value="Eggetarian" {% if prefs.food_type == "Eggetarian" %}selected{% endif %}>Eggetarian</option>
+                        <option value="Non-Veg" {% if prefs.food_type == "Non-Veg" %}selected{% endif %}>Non-Veg</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Personality</label>
+                    <select name="personality" class="form-select">
+                        <option value="Introvert" {% if prefs.personality == "Introvert" %}selected{% endif %}>Introvert</option>
+                        <option value="Extrovert" {% if prefs.personality == "Extrovert" %}selected{% endif %}>Extrovert</option>
+                        <option value="Ambivert" {% if prefs.personality == "Ambivert" %}selected{% endif %}>Ambivert</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pet Tolerance</label>
+                    <select name="pet_tolerance" class="form-select">
+                        <option value="Yes" {% if prefs.pet_tolerance == "Yes" %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if prefs.pet_tolerance == "No" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select name="language" class="form-select">
+                        <option value="Telugu" {% if prefs.language == "Telugu" %}selected{% endif %}>Telugu</option>
+                        <option value="Hindi" {% if prefs.language == "Hindi" %}selected{% endif %}>Hindi</option>
+                        <option value="English" {% if prefs.language == "English" %}selected{% endif %}>English</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Sharing Belongings</label>
+                    <select name="sharing_belongings" class="form-select">
+                        <option value="Yes" {% if prefs.sharing_belongings == "Yes" %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if prefs.sharing_belongings == "No" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Education</label>
+                    <input type="text" name="education" value="{{ prefs.education }}" class="form-input" placeholder="Enter your education level">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Group Study</label>
+                    <select name="group_study" class="form-select">
+                        <option value="Yes" {% if prefs.group_study == "Yes" %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if prefs.group_study == "No" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Call Frequency</label>
+                    <select name="call_frequency" class="form-select">
+                        <option value="Low" {% if prefs.call_frequency == "Low" %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if prefs.call_frequency == "Medium" %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if prefs.call_frequency == "High" %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Study Importance</label>
+                    <select name="study_importance" class="form-select">
+                        <option value="Low" {% if prefs.study_importance == "Low" %}selected{% endif %}>Low</option>
+                        <option value="Medium" {% if prefs.study_importance == "Medium" %}selected{% endif %}>Medium</option>
+                        <option value="High" {% if prefs.study_importance == "High" %}selected{% endif %}>High</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="save-button-container">
+            <button type="submit" class="save-button">
+                <span class="save-button-icon">💾</span>
+                <span>Save Preferences</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

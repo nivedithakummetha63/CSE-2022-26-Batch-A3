@@ -1,0 +1,156 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block content %}
+<style>
+
+/* Page Background */
+body {
+    background: #f5f7fb;
+    font-family: "Inter", "Poppins", sans-serif;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+    color: #0c4a6e;
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(56, 189, 248, 0.25);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.dashboard-header p {
+    margin-top: 8px;
+    font-size: 15px;
+    opacity: 0.8;
+    color: #0c4a6e;
+}
+
+/* Stats Grid */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 22px;
+    margin-bottom: 48px;
+}
+
+/* Cards */
+.stat-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 26px;
+    border: 1px solid #eef0f5;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+/* Colored Borders */
+.stat-card.users { border-left: 6px solid #38bdf8; }
+.stat-card.matches { border-left: 6px solid #22c55e; }
+.stat-card.blocked { border-left: 6px solid #ef4444; }
+.stat-card.reported { border-left: 6px solid #f59e0b; }
+
+/* Icons */
+.stat-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+    color: #38bdf8;
+}
+
+.stat-card.matches .stat-icon { color:#22c55e; }
+.stat-card.blocked .stat-icon { color:#ef4444; }
+.stat-card.reported .stat-icon { color:#f59e0b; }
+
+/* Numbers */
+.stat-number {
+    font-size: 38px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Labels */
+.stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+/* Buttons */
+.stat-link {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 9px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+    color: #0c4a6e !important;
+}
+
+</style>
+
+<div class="dashboard-header">
+    <h1>🏠 Roomie Radar Admin Dashboard</h1>
+    <p>Manage users, monitor reports, and oversee platform activity</p>
+</div>
+
+<div class="dashboard-stats">
+    <div class="stat-card users">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number" id="total-users">-</div>
+        <div class="stat-label">Total Users</div>
+        <a href="/admin/auth/user/" class="stat-link">View All Users</a>
+    </div>
+    
+    <div class="stat-card matches">
+        <div class="stat-icon">
+            <i class="fas fa-id-card"></i>
+        </div>
+        <div class="stat-number" id="total-profiles">-</div>
+        <div class="stat-label">User Profiles</div>
+        <a href="/admin/base/profile/" class="stat-link">View Profiles</a>
+    </div>
+    
+    <div class="stat-card blocked">
+        <div class="stat-icon">
+            <i class="fas fa-ban"></i>
+        </div>
+        <div class="stat-number" id="total-blocked">-</div>
+        <div class="stat-label">Blocked Users</div>
+        <a href="/admin/chat/blockeduser/" class="stat-link">Manage Blocks</a>
+    </div>
+    
+    <div class="stat-card reported">
+        <div class="stat-icon">
+            <i class="fas fa-flag"></i>
+        </div>
+        <div class="stat-number" id="total-reports">-</div>
+        <div class="stat-label">User Reports</div>
+        <a href="/admin/chat/userreport/" class="stat-link">Review Reports</a>
+    </div>
+</div>
+
+<script>
+// Fetch statistics from Django admin
+document.addEventListener('DOMContentLoaded', function() {
+    // Set values from context
+    document.getElementById('total-users').textContent = '{{ user_count|default:"0" }}';
+    document.getElementById('total-profiles').textContent = '{{ profile_count|default:"0" }}';
+    document.getElementById('total-blocked').textContent = '{{ blocked_count|default:"0" }}';
+    document.getElementById('total-reports').textContent = '{{ report_count|default:"0" }}';
+});
+</script>
+
+{{ block.super }}
+{% endblock %}

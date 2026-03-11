@@ -1,0 +1,498 @@
+{% extends "base/base.html" %}
+
+{% block title %}Verified Profiles | Roomie Radar{% endblock %}
+
+{% block start %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        --orange-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        --purple-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        --white: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #718096;
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+        min-height: 100vh;
+    }
+
+    .feature-page {
+        padding: 120px 0 80px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 40px;
+        padding: 12px 20px;
+        background: var(--white);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .page-badge {
+        display: inline-block;
+        background: var(--warning-gradient);
+        color: var(--white);
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .page-subtitle {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+
+    .content-text h2 {
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: var(--text-primary);
+    }
+
+    .content-text p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .profile-demo {
+        background: var(--white);
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: var(--shadow);
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        background: var(--success-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 32px;
+        margin: 0 auto 15px;
+        position: relative;
+    }
+
+    .verified-badge {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        width: 30px;
+        height: 30px;
+        background: var(--warning-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 14px;
+        border: 3px solid var(--white);
+    }
+
+    .profile-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .profile-status {
+        color: var(--warning-gradient);
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .profile-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .detail-item {
+        text-align: center;
+        padding: 15px;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+        border-radius: 12px;
+    }
+
+    .detail-label {
+        font-size: 12px;
+        color: var(--text-secondary);
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .detail-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .verification-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-bottom: 80px;
+    }
+
+    .step-item {
+        background: var(--white);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .step-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .step-number {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 auto 20px;
+    }
+
+    .step-item h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+    }
+
+    .step-item p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .features-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 80px;
+    }
+
+    .feature-item {
+        background: var(--white);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-item-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--warning-gradient);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .feature-item h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+    }
+
+    .feature-item p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .cta-section {
+        background: var(--primary-gradient);
+        color: var(--white);
+        padding: 60px 40px;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: var(--shadow);
+    }
+
+    .cta-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .cta-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .cta-button {
+        background: var(--white);
+        color: var(--text-primary);
+        padding: 16px 32px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 768px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+        }
+        
+        .verification-steps,
+        .features-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="feature-page">
+    <div class="container">
+        <a href="{% url 'landing' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+
+        <div class="page-header">
+            <div class="page-badge">
+                <i class="fas fa-shield-check"></i>
+                Trust & Safety
+            </div>
+            <h1 class="page-title">Verified Profiles</h1>
+            <p class="page-subtitle">
+                All profiles are verified through institutional email addresses ensuring authentic and trustworthy connections for your safety.
+            </p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-text">
+                <h2>Your Safety is Our Priority</h2>
+                <p>
+                    We understand that finding the right roommate is about more than just compatibility—it's about trust and safety. That's why every profile on Roomie Radar goes through our comprehensive verification process.
+                </p>
+                <p>
+                    Our multi-step verification ensures that you're connecting with real students from your institution, giving you peace of mind as you build meaningful relationships.
+                </p>
+            </div>
+            <div class="profile-demo">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                        <div class="verified-badge">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <div class="profile-name">Alex Thompson</div>
+                    <div class="profile-status">
+                        <i class="fas fa-shield-check"></i>
+                        Verified Student
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Institution</div>
+                        <div class="detail-value">MIT</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Year</div>
+                        <div class="detail-value">Junior</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Major</div>
+                        <div class="detail-value">Computer Science</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Match Score</div>
+                        <div class="detail-value">95%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="verification-steps">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <h3>Email Verification</h3>
+                <p>Students must verify their institutional email address to ensure they're enrolled at a recognized institution.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <h3>Profile Review</h3>
+                <p>Our team reviews each profile to ensure all information is accurate and appropriate for our community.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <h3>Identity Confirmation</h3>
+                <p>Additional verification steps may be required to confirm identity and prevent fake profiles.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <h3>Ongoing Monitoring</h3>
+                <p>We continuously monitor profiles and user behavior to maintain a safe and trustworthy community.</p>
+            </div>
+        </div>
+
+        <div class="features-list">
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3>Institutional Verification</h3>
+                <p>Only students with valid institutional email addresses can create profiles, ensuring authentic connections.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3>Identity Protection</h3>
+                <p>Personal information is protected and only shared with verified matches to maintain privacy and security.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-flag"></i>
+                </div>
+                <h3>Report System</h3>
+                <p>Easy reporting system allows users to flag inappropriate behavior or suspicious profiles immediately.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <h3>Block & Remove</h3>
+                <p>Users can block or remove unwanted contacts at any time to maintain their comfort and safety.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Our support team is available around the clock to address any safety concerns or verification issues.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3>Verified Badges</h3>
+                <p>Verified profiles display trust badges, making it easy to identify authentic and trustworthy users.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Join Our Verified Community</h2>
+            <p class="cta-subtitle">Create your verified profile today and connect with trustworthy roommates in a safe environment.</p>
+            <a href="{% url 'register' %}" class="cta-button">
+                <i class="fas fa-shield-check"></i>
+                Get Verified Now
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+{% endblock %}

@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Roomie Radar{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --danger: #ef4444;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ===== BASE STYLES ===== */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-y: scroll !important; /* Force scrollbar to always show */
+            overflow-x: hidden;
+        }
+
+        /* ===== CUSTOM SCROLLBAR ===== */
+        /* For Webkit browsers (Chrome, Safari, Edge) */
+        ::-webkit-scrollbar {
+            width: 14px !important; /* Wider for better visibility */
+            height: 14px !important;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb !important;
+            border-radius: 0 !important;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%) !important;
+            border-radius: 7px !important;
+            border: 2px solid #e5e7eb !important;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #764ba2 0%, #f093fb 100%) !important;
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(180deg, #f093fb 0%, #f5576c 100%) !important;
+        }
+
+        /* For Firefox */
+        html {
+            scrollbar-width: auto !important;
+            scrollbar-color: #667eea #e5e7eb !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden !important;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== ANIMATED BACKGROUND PARTICLES ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* ===== LAYOUT WRAPPER ===== */
+        .layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== MODERN NAVBAR ===== */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 18px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 30px;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .nav-logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo::before {
+            content: '🏠';
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-links span {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            transform: translateY(-2px);
+            color: var(--primary);
+        }
+
+        .nav-links a[href*="logout"] {
+            color: var(--danger);
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        }
+
+        .nav-links a[href*="logout"]:hover {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #dc2626;
+        }
+
+        /* ===== ENHANCED MESSAGES ===== */
+        .messages {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message {
+            padding: 18px 24px;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #065f46;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message::before {
+            content: '✓';
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--secondary), #059669);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .message:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .message.error {
+            background: rgba(254, 242, 242, 0.95);
+            color: #991b1b;
+            border-left-color: var(--danger);
+        }
+
+        .message.error::before {
+            content: '⚠';
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+        }
+
+        /* ===== MODERN PAGE CONTENT ===== */
+        main {
+            margin-top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            background-size: 200% 100%;
+            animation: shimmer 3s ease infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .layout {
+                padding: 12px;
+            }
+
+            nav {
+                padding: 14px 20px;
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+                border-radius: 16px;
+            }
+
+            .nav-logo {
+                font-size: 1.5rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+
+            .nav-links a {
+                text-align: center;
+                padding: 12px 20px;
+            }
+
+            main {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+
+            .messages {
+                margin-bottom: 20px;
+            }
+
+            .message {
+                padding: 14px 18px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 12px 16px;
+                border-radius: 14px;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            main {
+                padding: 24px 16px;
+                border-radius: 16px;
+            }
+
+            .message {
+                padding: 12px 16px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .message::before {
+                margin: 0 auto;
+            }
+        }
+
+        /* ===== SMOOTH SCROLLING ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ===== SELECTION STYLES ===== */
+        ::selection {
+            background: rgba(59, 130, 246, 0.3);
+            color: var(--text-primary);
+        }
+
+        /* ===== FOCUS STYLES ===== */
+        *:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* ===== LOADING ANIMATION ===== */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* ===== CHATBOT STYLES ===== */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px; /* Aligned with scroll button */
+            right: 30px;
+            z-index: 10000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ===== SCROLL TO TOP BUTTON ===== */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px; /* Same as chatbot */
+            right: 110px; /* 30px (chatbot right) + 60px (chatbot width) + 20px (gap) */
+            width: 60px; /* Same as chatbot */
+            height: 60px; /* Same as chatbot */
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(100px);
+            line-height: 1;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(240, 147, 251, 0.6);
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+        }
+
+        .scroll-to-top:active {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .chatbot-toggle {
+            width: 60px; /* Matching scroll button */
+            height: 60px; /* Matching scroll button */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .chatbot-toggle:hover::before {
+            left: 100%;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .chatbot-toggle.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: rotate(45deg);
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 380px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: chatbotSlideIn 0.3s ease-out;
+        }
+
+        .chatbot-window.active {
+            display: flex;
+        }
+
+        @keyframes chatbotSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chatbot-header p {
+            margin: 5px 0 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chatbot-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chatbot-message.bot {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #1e293b;
+            align-self: flex-start;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .chatbot-message.user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chatbot-message a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 4px 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .chatbot-message a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .chatbot-input-container {
+            padding: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(248, 250, 252, 0.8);
+        }
+
+        .chatbot-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .chatbot-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .quick-question {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .quick-question:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 18px;
+            max-width: 85%;
+            align-self: flex-start;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                height: 70vh;
+                bottom: 80px;
+                right: 20px;
+                left: 20px;
+            }
+
+            .chatbot-toggle {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- ===== MODERN NAVBAR ===== -->
+        <nav>
+            <div class="nav-logo">Roomie Radar</div>
+
+            {% if request.user.is_authenticated %}
+            <div class="nav-links">
+                <span>👋 Hello, {{ request.user.username }}</span>
+                <a href="/rooms/my-bookings/">📅 My Bookings</a>
+                <a href="/accounts/logout/">🚪 Logout</a>
+            </div>
+            {% endif %}
+        </nav>
+
+        <!-- ===== ENHANCED MESSAGES ===== -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- ===== PAGE CONTENT ===== -->
+        <main>
+            {% block start %}{% endblock %}
+        </main>
+
+    </div>
+
+    <!-- ===== SCROLL TO TOP BUTTON ===== -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+        ↑
+    </button>
+
+    <!-- ===== INTELLIGENT CHATBOT ===== -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" id="chatbotToggle">
+            <span id="chatbotIcon">💬</span>
+        </button>
+        
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <h3>🤖 Roomie Assistant</h3>
+                <p>I'm here to help you navigate Roomie Radar!</p>
+            </div>
+            
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chatbot-message bot">
+                    👋 Hi! I'm your Roomie Assistant. I can help you with:
+                    <br><br>
+                    • Account & Login questions
+                    <br>• Profile & Preferences setup
+                    <br>• Finding matches & roommates
+                    <br>• Chat & Messaging help
+                    <br>• Safety & Reporting issues
+                    <br><br>
+                    What would you like to know?
+                </div>
+                
+                <div class="quick-questions">
+                    <div class="quick-question" onclick="askQuestion('How do I create an account?')">Create Account</div>
+                    <div class="quick-question" onclick="askQuestion('How do I edit my profile?')">Edit Profile</div>
+                    <div class="quick-question" onclick="askQuestion('How do I find matches?')">Find Matches</div>
+                    <div class="quick-question" onclick="askQuestion('How do I start chatting?')">Start Chat</div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <span>Assistant is typing...</span>
+            </div>
+            
+            <div class="chatbot-input-container">
+                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ask me anything about Roomie Radar..." />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chatbot Knowledge Base
+        const chatbotKnowledge = {
+            // Account & Login (1-15)
+            "create account": {
+                answer: "To create an account on Roomie Radar:",
+                steps: [
+                    "1. Click on 'Create Account' or 'Register'",
+                    "2. Fill in your username, name, email, and password",
+                    "3. Click 'Create Account' to register",
+                    "4. Complete your profile to start finding roommates!"
+                ],
+                links: {% if not user.is_authenticated %}[{text: "Register Now", url: "{% url 'register' %}"}]{% else %}[]{% endif %}
+            },
+            
+            "login": {
+                answer: "To log in to Roomie Radar:",
+                steps: [
+                    "1. Click on 'Sign In' or 'Login'",
+                    "2. Enter your username/email and password",
+                    "3. Click 'Sign In' to access your account"
+                ],
+                links: {% if not user.is_authenticated %}[{text: "Login Now", url: "{% url 'login' %}"}]{% else %}[]{% endif %}
+            },
+            
+            "forgot password": {
+                answer: "If you forgot your password:",
+                steps: [
+                    "1. Go to the login page",
+                    "2. Click on 'Forgot password?' link",
+                    "3. Enter your email address",
+                    "4. Check your email for reset instructions"
+                ],
+                links: {% if not user.is_authenticated %}[{text: "Reset Password", url: "{% url 'login' %}"}]{% else %}[]{% endif %}
+            },
+            
+            "logout": {
+                answer: "To log out of your account:",
+                steps: [
+                    "1. Click on your username in the top navigation",
+                    "2. Select 'Logout' from the menu",
+                    "3. You'll be safely logged out"
+                ],
+                links: {% if user.is_authenticated %}[{text: "Logout Now", url: "/accounts/logout/"}]{% else %}[]{% endif %}
+            },
+            
+            // Profile & Preferences (16-30)
+            "edit profile": {
+                answer: {% if user.is_authenticated %}"To edit your profile:"{% else %}"To edit your profile, you need to be logged in first."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Go to your dashboard",
+                    "2. Click on 'Profile Management'",
+                    "3. Update your information",
+                    "4. Save your changes"
+                ]{% else %}[
+                    "1. Please log in to your account first",
+                    "2. Then navigate to your profile section"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "Edit Profile", url: "{% url 'profile' %}"}]{% else %}[{text: "Login First", url: "{% url 'login' %}"}]{% endif %}
+            },
+            
+            "complete profile": {
+                answer: {% if user.is_authenticated %}"To complete your profile:"{% else %}"You need to be logged in to complete your profile."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Go to your dashboard",
+                    "2. Click on 'Profile Management'",
+                    "3. Fill in all required fields",
+                    "4. Upload a profile picture",
+                    "5. Save your profile"
+                ]{% else %}[
+                    "1. Create an account or log in",
+                    "2. Then complete your profile setup"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "Complete Profile", url: "{% url 'profile' %}"}]{% else %}[{text: "Register Now", url: "{% url 'register' %}"}]{% endif %}
+            },
+            
+            "preferences": {
+                answer: {% if user.is_authenticated %}"To set your roommate preferences:"{% else %}"You need to be logged in to set preferences."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Go to your dashboard",
+                    "2. Click on 'Preferences Setup'",
+                    "3. Set your budget, location, and lifestyle preferences",
+                    "4. Save your preferences"
+                ]{% else %}[
+                    "1. Please log in to your account",
+                    "2. Then set up your preferences"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "Set Preferences", url: "{% url 'preferences' %}"}]{% else %}[{text: "Login First", url: "{% url 'login' %}"}]{% endif %}
+            },
+            
+            // Search & Match (31-45)
+            "find matches": {
+                answer: {% if user.is_authenticated %}"To find roommate matches:"{% else %}"You need to be logged in to find matches."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Complete your profile and preferences",
+                    "2. Go to your dashboard",
+                    "3. Click on 'Find Matches'",
+                    "4. Browse through compatible roommates",
+                    "5. Connect with people you like!"
+                ]{% else %}[
+                    "1. Create an account first",
+                    "2. Complete your profile",
+                    "3. Then start finding matches"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "Find Matches", url: "{% url 'find_matches' %}"}]{% else %}[{text: "Register Now", url: "{% url 'register' %}"}]{% endif %}
+            },
+            
+            "matching algorithm": {
+                answer: "Roomie Radar uses an intelligent matching system:",
+                steps: [
+                    "• Lifestyle compatibility analysis",
+                    "• Budget and location preferences",
+                    "• Personality and habits matching",
+                    "• Safety and verification checks",
+                    "• Mutual interest scoring"
+                ],
+                links: []
+            },
+            
+            // Chat & Messaging (46-60)
+            "start chat": {
+                answer: {% if user.is_authenticated %}"To start chatting with potential roommates:"{% else %}"You need to be logged in to start chatting."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Find matches or browse profiles",
+                    "2. Click on a profile you're interested in",
+                    "3. Click 'Start Chat' or 'Message'",
+                    "4. Send a friendly introduction message"
+                ]{% else %}[
+                    "1. Please log in to your account",
+                    "2. Find matches first",
+                    "3. Then start chatting"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "View Messages", url: "{% url 'chat_home' %}"}]{% else %}[{text: "Login First", url: "{% url 'login' %}"}]{% endif %}
+            },
+            
+            "messaging": {
+                answer: {% if user.is_authenticated %}"To manage your messages:"{% else %}"You need to be logged in to access messaging."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Go to your dashboard",
+                    "2. Click on 'Messaging'",
+                    "3. View all your conversations",
+                    "4. Click on any chat to continue"
+                ]{% else %}[
+                    "1. Please log in to access messaging",
+                    "2. Then you can chat with matches"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "Open Messages", url: "{% url 'chat_home' %}"}]{% else %}[{text: "Login First", url: "{% url 'login' %}"}]{% endif %}
+            },
+            
+            // Rooms & Booking
+            "book room": {
+                answer: {% if user.is_authenticated %}"To book a hostel room:"{% else %}"You need to be logged in to book rooms."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Go to 'Explore Rooms' from your dashboard",
+                    "2. Browse available hostel rooms",
+                    "3. Use filters to find your preferred room",
+                    "4. Click 'Book This Room' on available rooms"
+                ]{% else %}[
+                    "1. Please log in to your account",
+                    "2. Then explore and book rooms"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "Explore Rooms", url: "{% url 'app_home' %}"}]{% else %}[{text: "Login First", url: "{% url 'login' %}"}]{% endif %}
+            },
+            
+            "my bookings": {
+                answer: {% if user.is_authenticated %}"To view your bookings:"{% else %}"You need to be logged in to view bookings."{% endif %},
+                steps: {% if user.is_authenticated %}[
+                    "1. Click on 'My Bookings' in the navigation",
+                    "2. View all your current and past bookings",
+                    "3. Check booking details and status"
+                ]{% else %}[
+                    "1. Please log in to view your bookings"
+                ]{% endif %},
+                links: {% if user.is_authenticated %}[{text: "View My Bookings", url: "/rooms/my-bookings/"}]{% else %}[{text: "Login First", url: "{% url 'login' %}"}]{% endif %}
+            },
+            
+            // Safety & Reporting (61-70)
+            "report user": {
+                answer: "To report inappropriate behavior:",
+                steps: [
+                    "1. Go to the user's profile or chat",
+                    "2. Click on the 'Report' button (⚠️)",
+                    "3. Select the reason for reporting",
+                    "4. Provide additional details if needed",
+                    "5. Submit the report - we'll investigate immediately"
+                ],
+                links: []
+            },
+            
+            "block user": {
+                answer: "To block a user:",
+                steps: [
+                    "1. Go to the user's profile or chat",
+                    "2. Click on 'Block User' option",
+                    "3. Confirm the action",
+                    "4. The user will no longer be able to contact you"
+                ],
+                links: []
+            },
+            
+            "safety": {
+                answer: "Roomie Radar prioritizes your safety:",
+                steps: [
+                    "• Profile verification system",
+                    "• Secure messaging platform",
+                    "• Report and block features",
+                    "• 24/7 moderation team",
+                    "• Privacy protection measures",
+                    "• Safety tips and guidelines"
+                ],
+                links: []
+            },
+            
+            // General Help
+            "help": {
+                answer: "I can help you with various topics:",
+                steps: [
+                    "• Account creation and login issues",
+                    "• Profile setup and preferences",
+                    "• Finding and matching with roommates",
+                    "• Messaging and communication",
+                    "• Room booking and management",
+                    "• Safety and reporting concerns"
+                ],
+                links: []
+            }
+        };
+
+        // Chatbot functionality
+        let chatbotOpen = false;
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Toggle chatbot
+        chatbotToggle.addEventListener('click', () => {
+            chatbotOpen = !chatbotOpen;
+            chatbotWindow.classList.toggle('active');
+            chatbotToggle.classList.toggle('active');
+            chatbotIcon.textContent = chatbotOpen ? '✕' : '💬';
+        });
+
+        // Handle input
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const message = chatbotInput.value.trim();
+                if (message) {
+                    addUserMessage(message);
+                    chatbotInput.value = '';
+                    processMessage(message);
+                }
+            }
+        });
+
+        // Add user message
+        function addUserMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chatbot-message user';
+            messageDiv.textContent = message;
+            chatbotMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Add bot message
+        function addBotMessage(content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chatbot-message bot';
+            messageDiv.innerHTML = content;
+            chatbotMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            typingIndicator.style.display = 'flex';
+            scrollToBottom();
+        }
+
+        // Hide typing indicator
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Scroll to bottom
+        function scrollToBottom() {
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Process message
+        function processMessage(message) {
+            showTyping();
+            
+            setTimeout(() => {
+                hideTyping();
+                const response = findBestMatch(message.toLowerCase());
+                addBotMessage(response);
+            }, 1000 + Math.random() * 1000);
+        }
+
+        // Find best match for user query
+        function findBestMatch(query) {
+            const keywords = {
+                'create account': ['create', 'account', 'register', 'sign up', 'signup'],
+                'login': ['login', 'sign in', 'signin', 'log in'],
+                'forgot password': ['forgot', 'password', 'reset', 'recover'],
+                'logout': ['logout', 'sign out', 'signout', 'log out'],
+                'edit profile': ['edit', 'profile', 'update', 'change', 'modify'],
+                'complete profile': ['complete', 'profile', 'finish', 'setup'],
+                'preferences': ['preferences', 'settings', 'criteria', 'requirements'],
+                'find matches': ['matches', 'find', 'search', 'roommates', 'compatible'],
+                'matching algorithm': ['algorithm', 'matching', 'how', 'works'],
+                'start chat': ['chat', 'message', 'talk', 'communicate', 'contact'],
+                'messaging': ['messaging', 'messages', 'conversations', 'chats'],
+                'book room': ['book', 'room', 'hostel', 'accommodation', 'reserve'],
+                'my bookings': ['bookings', 'reservations', 'my rooms'],
+                'report user': ['report', 'inappropriate', 'abuse', 'harassment'],
+                'block user': ['block', 'user', 'stop', 'prevent'],
+                'safety': ['safety', 'secure', 'protection', 'privacy'],
+                'help': ['help', 'support', 'assistance', 'guide']
+            };
+
+            let bestMatch = 'help';
+            let maxScore = 0;
+
+            for (const [key, terms] of Object.entries(keywords)) {
+                const score = terms.reduce((acc, term) => {
+                    return acc + (query.includes(term) ? 1 : 0);
+                }, 0);
+
+                if (score > maxScore) {
+                    maxScore = score;
+                    bestMatch = key;
+                }
+            }
+
+            return formatResponse(chatbotKnowledge[bestMatch]);
+        }
+
+        // Format response
+        function formatResponse(knowledge) {
+            if (!knowledge) {
+                return "I'm sorry, I didn't understand that. Try asking about account creation, profile setup, finding matches, messaging, or room booking!";
+            }
+
+            let response = `<strong>${knowledge.answer}</strong><br><br>`;
+            
+            if (knowledge.steps) {
+                response += knowledge.steps.join('<br>');
+            }
+
+            if (knowledge.links && knowledge.links.length > 0) {
+                response += '<br><br>';
+                knowledge.links.forEach(link => {
+                    response += `<a href="${link.url}" target="_blank">${link.text}</a> `;
+                });
+            }
+
+            return response;
+        }
+
+        // Quick question function
+        function askQuestion(question) {
+            addUserMessage(question);
+            processMessage(question);
+        }
+
+        // Auto-scroll on new messages
+        const observer = new MutationObserver(() => {
+            scrollToBottom();
+        });
+
+        observer.observe(chatbotMessages, { childList: true });
+    </script>
+
+    <script>
+        // Scroll to top button functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+</body>
+</html>

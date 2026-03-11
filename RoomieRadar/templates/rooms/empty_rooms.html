@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hostel Rooms | Roomie Radar</title>
+</head>
+<body>
+
+<h2>Available Hostel Rooms</h2>
+
+{% if rooms %}
+    {% for room in rooms %}
+        <div style="border:1px solid #ccc; padding:15px; margin-bottom:10px;">
+            <p><strong>Room No:</strong> {{ room.room_number }}</p>
+            <p><strong>Total Beds:</strong> {{ room.total_beds }}</p>
+            <p><strong>Occupied Beds:</strong> {{ room.occupied_beds }}</p>
+            <p><strong>Available Beds:</strong> {{ room.total_beds|add:-room.occupied_beds }}</p>
+
+            <a href="{% url 'book_bed' room.id %}">
+                <button>Book</button>
+            </a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No hostel rooms available.</p>
+{% endif %}
+
+</body>
+</html>

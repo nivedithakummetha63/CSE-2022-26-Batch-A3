@@ -1,0 +1,341 @@
+{% extends "base/base.html" %}
+
+{% block title %}Smart Matching | Roomie Radar{% endblock %}
+
+{% block start %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        --orange-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        --purple-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        --white: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #718096;
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+        min-height: 100vh;
+    }
+
+    .feature-page {
+        padding: 120px 0 80px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 40px;
+        padding: 12px 20px;
+        background: var(--white);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .page-badge {
+        display: inline-block;
+        background: var(--success-gradient);
+        color: var(--white);
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .page-subtitle {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+
+    .content-text h2 {
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: var(--text-primary);
+    }
+
+    .content-text p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+    }
+
+    .content-visual {
+        background: var(--white);
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: var(--shadow);
+        text-align: center;
+    }
+
+    .visual-icon {
+        width: 120px;
+        height: 120px;
+        background: var(--success-gradient);
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        color: var(--white);
+        margin: 0 auto 30px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .features-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 80px;
+    }
+
+    .feature-item {
+        background: var(--white);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-item-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--warning-gradient);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .feature-item h3 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-primary);
+    }
+
+    .feature-item p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .cta-section {
+        background: var(--primary-gradient);
+        color: var(--white);
+        padding: 60px 40px;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: var(--shadow);
+    }
+
+    .cta-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .cta-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .cta-button {
+        background: var(--white);
+        color: var(--text-primary);
+        padding: 16px 32px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    @media (max-width: 768px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
+        .page-title {
+            font-size: 2.2rem;
+        }
+        
+        .features-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="feature-page">
+    <div class="container">
+        <a href="{% url 'landing' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+
+        <div class="page-header">
+            <div class="page-badge">
+                <i class="fas fa-brain"></i>
+                AI-Powered Feature
+            </div>
+            <h1 class="page-title">Smart Matching Algorithm</h1>
+            <p class="page-subtitle">
+                Our advanced AI algorithm analyzes your preferences, lifestyle, and personality to find the most compatible roommates for you.
+            </p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-text">
+                <h2>How Smart Matching Works</h2>
+                <p>
+                    Our intelligent matching system goes beyond basic preferences. It analyzes multiple data points including your study habits, sleep schedule, cleanliness preferences, social behavior, and lifestyle choices to create a comprehensive compatibility score.
+                </p>
+                <p>
+                    The algorithm continuously learns from successful matches and user feedback, improving its accuracy over time to ensure you find roommates who truly complement your living style.
+                </p>
+            </div>
+            <div class="content-visual">
+                <div class="visual-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>98% Match Accuracy</h3>
+                <p>Based on successful roommate pairings</p>
+            </div>
+        </div>
+
+        <div class="features-list">
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>Personality Analysis</h3>
+                <p>Matches based on introversion/extroversion, social preferences, and communication styles for better compatibility.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Lifestyle Sync</h3>
+                <p>Considers sleep schedules, study habits, cleanliness levels, and daily routines to find harmonious living arrangements.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Interest Matching</h3>
+                <p>Connects you with roommates who share similar hobbies, interests, and academic goals for meaningful friendships.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Safety First</h3>
+                <p>All matches are verified through institutional email addresses and background checks for your security.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Continuous Learning</h3>
+                <p>The algorithm improves with each successful match, becoming more accurate at predicting compatibility over time.</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-item-icon">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <h3>Custom Filters</h3>
+                <p>Set specific preferences for gender, room type, budget, location, and other important factors that matter to you.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to Find Your Perfect Match?</h2>
+            <p class="cta-subtitle">Join thousands of students who have found their ideal roommates through our smart matching system.</p>
+            <a href="{% url 'register' %}" class="cta-button">
+                <i class="fas fa-rocket"></i>
+                Get Started Now
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+{% endblock %}

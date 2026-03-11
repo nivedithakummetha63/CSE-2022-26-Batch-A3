@@ -1,0 +1,541 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | Roomie Radar Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        /* Neon frame wrapper */
+        .neon-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            height: 90vh;
+            border-radius: 30px;
+            padding: 6px;
+            background: linear-gradient(45deg, #f97316, #fb923c, #f97316);
+            background-size: 300% 300%;
+            animation: neonGradient 4s ease infinite;
+            box-shadow: 
+                0 0 20px rgba(249, 115, 22, 0.5),
+                0 0 40px rgba(249, 115, 22, 0.3),
+                0 0 60px rgba(249, 115, 22, 0.2),
+                inset 0 0 20px rgba(249, 115, 22, 0.1);
+        }
+        
+        @keyframes neonGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Glowing corners */
+        .neon-wrapper::before,
+        .neon-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        .neon-wrapper::before {
+            top: -50px;
+            left: -50px;
+            background: rgba(249, 115, 22, 0.6);
+            animation-delay: 0s;
+        }
+        
+        .neon-wrapper::after {
+            bottom: -50px;
+            right: -50px;
+            background: rgba(251, 146, 60, 0.6);
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        /* Inner glow effect */
+        .neon-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 26px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: inset 0 0 30px rgba(249, 115, 22, 0.2);
+        }
+        
+        /* Split layout container */
+        .login-container {
+            display: flex;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* LEFT SIDE - Image section */
+        .image-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .image-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            z-index: 1;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Decorative overlay shapes */
+        .overlay-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: 2;
+        }
+        
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.2);
+            top: -100px;
+            left: -100px;
+        }
+        
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.15);
+            bottom: -50px;
+            right: -50px;
+        }
+        
+        /* RIGHT SIDE - Form section */
+        .form-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e8ecf1 100%);
+            padding: 40px;
+        }
+        
+        /* Login card */
+        .login-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08),
+                        0 0 0 1px rgba(0, 0, 0, 0.02);
+            padding: 48px;
+            max-width: 420px;
+            width: 100%;
+            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Logo section */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            margin: 32px 0;
+        }
+        
+        /* Error messages */
+        .error-message {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 4px solid #ef4444;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+            color: #991b1b;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: shake 0.4s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        
+        /* Form styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #94a3b8;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            height: 50px;
+            padding: 0 16px 0 48px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #0f172a;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            background: #ffffff;
+            border-color: #f97316;
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+            outline: none;
+        }
+        
+        input[type="text"]:focus ~ .input-icon,
+        input[type="password"]:focus ~ .input-icon {
+            color: #f97316;
+        }
+        
+        input::placeholder {
+            color: #cbd5e1;
+        }
+        
+        /* Password toggle */
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 4px;
+            transition: color 0.3s ease;
+        }
+        
+        .password-toggle:hover {
+            color: #f97316;
+        }
+        
+        /* Forgot password link */
+        .forgot-password {
+            text-align: right;
+            margin-top: 12px;
+        }
+        
+        .forgot-password a {
+            font-size: 14px;
+            color: #f97316;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .forgot-password a:hover {
+            color: #ea580c;
+        }
+        
+        /* Submit button with gradient */
+        .submit-btn {
+            width: 100%;
+            height: 50px;
+            margin-top: 28px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);
+            letter-spacing: 0.3px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 968px) {
+            body {
+                padding: 20px;
+            }
+            
+            .neon-wrapper {
+                height: 85vh;
+            }
+            
+            .login-container {
+                flex-direction: column;
+            }
+            
+            .image-section {
+                height: 40%;
+                flex: none;
+            }
+            
+            .form-section {
+                flex: 1;
+                padding: 24px;
+            }
+            
+            .login-card {
+                padding: 36px 28px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .neon-wrapper {
+                padding: 4px;
+                height: 90vh;
+            }
+            
+            .login-card {
+                padding: 32px 24px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .logo {
+                width: 64px;
+                height: 64px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Neon Frame Wrapper -->
+    <div class="neon-wrapper">
+        <div class="neon-inner">
+            <div class="login-container">
+        <!-- LEFT SIDE - Image Section -->
+        <div class="image-section">
+            <img src="https://i.pinimg.com/1200x/d3/6c/f9/d36cf9100cf58c0c90e2d7cf766872d6.jpg" alt="Roomie Radar" class="hero-image">
+            <div class="overlay-shape shape-1"></div>
+            <div class="overlay-shape shape-2"></div>
+        </div>
+        
+        <!-- RIGHT SIDE - Form Section -->
+        <div class="form-section">
+            <div class="login-card">
+                <!-- Logo and Title -->
+                <div class="logo-container">
+                    <img src="https://logodix.com/logo/1707130.png" alt="Roomie Radar Logo" class="logo">
+                    <h1>Roomie Radar</h1>
+                    <p class="subtitle">Admin Dashboard Login</p>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- Error Messages -->
+                {% if form.errors or form.non_field_errors %}
+                <div class="error-message">
+                    <span>⚠️</span>
+                    <span>
+                        {% if form.non_field_errors %}
+                            {{ form.non_field_errors.0 }}
+                        {% else %}
+                            Invalid credentials. Please try again.
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                
+                <!-- Login Form -->
+                <form action="{{ app_path }}" method="post" id="login-form">
+                    {% csrf_token %}
+                    
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="id_username">Username</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                name="username" 
+                                id="id_username" 
+                                placeholder="Enter your username"
+                                required
+                                autofocus
+                            >
+                            <span class="input-icon">👤</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="id_password">Password</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="password" 
+                                name="password" 
+                                id="id_password" 
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <span class="input-icon">🔒</span>
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <span id="toggle-icon">👁️</span>
+                            </button>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" name="next" value="{{ next }}">
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn">
+                        Sign in →
+                    </button>
+                </form>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('id_password');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+    </script>
+</body>
+</html>

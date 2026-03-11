@@ -1,0 +1,443 @@
+{% extends "base/base.html" %}
+
+{% block title %}Booking Confirmed | Roomie Radar{% endblock %}
+
+{% block start %}
+
+<style>
+    :root {
+        --success-primary: #10b981;
+        --success-light: #34d399;
+        --success-bg: #ecfdf5;
+        --success-border: #a7f3d0;
+        --primary: #667eea;
+        --primary-light: #818cf8;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-600: #4b5563;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --border-radius: 0.75rem;
+        --border-radius-lg: 1rem;
+        --border-radius-xl: 1.5rem;
+        --gradient-success: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #818cf8 100%);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        color: var(--gray-900);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.2) 0%, transparent 50%);
+        z-index: -1;
+        animation: backgroundShift 15s ease-in-out infinite;
+    }
+
+    @keyframes backgroundShift {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 53%, 80%, 100% {
+            transform: translate3d(0, 0, 0);
+        }
+        40%, 43% {
+            transform: translate3d(0, -8px, 0);
+        }
+        70% {
+            transform: translate3d(0, -4px, 0);
+        }
+        90% {
+            transform: translate3d(0, -2px, 0);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .success-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+    }
+
+    .success-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--border-radius-xl);
+        padding: 3rem 2.5rem;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: var(--shadow-xl);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 0.8s ease-out;
+    }
+
+    .success-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-success);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2.5rem;
+        color: var(--white);
+        animation: bounce 1s ease-out 0.5s both;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+    }
+
+    .success-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.025em;
+    }
+
+    .success-subtitle {
+        font-size: 1.125rem;
+        color: var(--gray-600);
+        margin-bottom: 2rem;
+        font-weight: 500;
+    }
+
+    .booking-details {
+        background: var(--gray-50);
+        border-radius: var(--border-radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--gray-200);
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: var(--gray-700);
+        font-size: 0.95rem;
+    }
+
+    .detail-value {
+        font-weight: 500;
+        color: var(--gray-900);
+        font-size: 0.95rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: var(--border-radius);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+        left: 100%;
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        color: var(--white);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+        background: var(--white);
+        color: var(--gray-700);
+        border: 1px solid var(--gray-300);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+        background: var(--gray-50);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+    }
+
+    .celebration-confetti {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        pointer-events: none;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--success-primary);
+        animation: confetti-fall 3s ease-out infinite;
+    }
+
+    .confetti-piece:nth-child(1) { left: 10%; animation-delay: 0s; background: #f59e0b; }
+    .confetti-piece:nth-child(2) { left: 20%; animation-delay: 0.2s; background: #ef4444; }
+    .confetti-piece:nth-child(3) { left: 30%; animation-delay: 0.4s; background: #8b5cf6; }
+    .confetti-piece:nth-child(4) { left: 40%; animation-delay: 0.6s; background: #06b6d4; }
+    .confetti-piece:nth-child(5) { left: 50%; animation-delay: 0.8s; background: #10b981; }
+    .confetti-piece:nth-child(6) { left: 60%; animation-delay: 1s; background: #f59e0b; }
+    .confetti-piece:nth-child(7) { left: 70%; animation-delay: 1.2s; background: #ef4444; }
+    .confetti-piece:nth-child(8) { left: 80%; animation-delay: 1.4s; background: #8b5cf6; }
+    .confetti-piece:nth-child(9) { left: 90%; animation-delay: 1.6s; background: #06b6d4; }
+
+    @keyframes confetti-fall {
+        0% {
+            transform: translateY(-100px) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(400px) rotate(720deg);
+            opacity: 0;
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .success-card {
+            padding: 2rem 1.5rem;
+            margin: 1rem;
+        }
+
+        .success-title {
+            font-size: 1.75rem;
+        }
+
+        .success-subtitle {
+            font-size: 1rem;
+        }
+
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+        }
+
+        .action-buttons {
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .success-container {
+            padding: 1rem;
+        }
+
+        .success-card {
+            padding: 1.5rem 1rem;
+        }
+
+        .booking-details {
+            padding: 1rem;
+        }
+
+        .detail-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+</style>
+
+<div class="success-container">
+    <div class="success-card">
+        <!-- Celebration Confetti -->
+        <div class="celebration-confetti">
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+            <div class="confetti-piece"></div>
+        </div>
+
+        <!-- Success Icon -->
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <!-- Success Message -->
+        <h1 class="success-title">Booking Confirmed!</h1>
+        <p class="success-subtitle">Your room has been successfully reserved</p>
+
+        <!-- Booking Details -->
+        <div class="booking-details">
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-door-open" style="margin-right: 0.5rem; color: var(--primary);"></i>
+                    Room Number
+                </span>
+                <span class="detail-value">{{ room.room_number }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-bed" style="margin-right: 0.5rem; color: var(--primary);"></i>
+                    Bed Sharing
+                </span>
+                <span class="detail-value">{{ room.total_beds }} Sharing</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-user" style="margin-right: 0.5rem; color: var(--primary);"></i>
+                    Gender
+                </span>
+                <span class="detail-value">{{ room.gender }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">
+                    <i class="fas fa-snowflake" style="margin-right: 0.5rem; color: var(--primary);"></i>
+                    AC Type
+                </span>
+                <span class="detail-value">{{ room.ac_type }}</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="/rooms/my-bookings/" class="btn btn-primary">
+                <i class="fas fa-history"></i>
+                View My Bookings
+            </a>
+            <a href="{% url 'app_home' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Explore Rooms
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+{% endblock %}

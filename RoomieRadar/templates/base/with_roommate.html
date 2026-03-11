@@ -1,0 +1,822 @@
+{% extends "base/base.html" %}
+
+{% block title %}Roommate Dashboard | Roomie Radar{% endblock %}
+
+{% block start %}
+
+<style>
+    :root {
+        --primary: #667eea;
+        --primary-hover: #5a6fd8;
+        --primary-light: #f093fb;
+        --secondary: #764ba2;
+        --secondary-light: #667eea;
+        --success: #11998e;
+        --success-light: #38ef7d;
+        --warning: #f093fb;
+        --warning-light: #f5576c;
+        --danger: #ff6b6b;
+        --gray-50: #f8fafc;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-300: #cbd5e1;
+        --gray-400: #94a3b8;
+        --gray-500: #64748b;
+        --gray-600: #475569;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --gray-900: #0f172a;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+        --border-radius: 0.75rem;
+        --border-radius-lg: 1rem;
+        --border-radius-xl: 1.5rem;
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --gradient-warning: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        --glass-bg: rgba(255, 255, 255, 0.25);
+        --glass-border: rgba(255, 255, 255, 0.18);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: var(--gradient-bg);
+        color: var(--gray-900);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+        z-index: -1;
+        animation: backgroundShift 20s ease-in-out infinite;
+    }
+
+    @keyframes backgroundShift {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        animation: slideInUp 0.8s ease-out;
+    }
+
+    /* Header Section */
+    .dashboard-header {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius-xl);
+        padding: 2.5rem;
+        margin-bottom: 2.5rem;
+        box-shadow: var(--shadow-xl);
+        position: relative;
+        overflow: hidden;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .dashboard-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 3s infinite;
+    }
+
+    .header-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 1.25rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: var(--gray-800);
+        text-decoration: none;
+        border-radius: var(--border-radius-lg);
+        font-weight: 600;
+        font-size: 0.875rem;
+        border: 1px solid var(--glass-border);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .back-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    .back-button:hover::before {
+        left: 100%;
+    }
+
+    .back-button:hover {
+        background: rgba(255, 255, 255, 0.4);
+        color: var(--gray-900);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .user-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        background: var(--gradient-primary);
+        color: var(--white);
+        border-radius: var(--border-radius-lg);
+        font-weight: 600;
+        font-size: 0.875rem;
+        box-shadow: var(--shadow-glow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .user-badge::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 2s infinite;
+    }
+
+    .welcome-section {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .page-title {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-700) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.025em;
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    .page-subtitle {
+        font-size: 1.25rem;
+        color: var(--gray-700);
+        font-weight: 500;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    /* Features Grid */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Booking Status Card */
+    .booking-status-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: var(--border-radius-xl);
+        padding: 2rem;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-xl);
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 0.8s ease-out;
+    }
+
+    .booking-status-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-success);
+    }
+
+    .booking-icon {
+        width: 4rem;
+        height: 4rem;
+        background: var(--gradient-success);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--white);
+        flex-shrink: 0;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .booking-info {
+        flex: 1;
+    }
+
+    .booking-info h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.5rem;
+    }
+
+    .booking-info p {
+        color: var(--gray-700);
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+
+    .booking-details {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .booking-details span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--gray-600);
+        background: rgba(16, 185, 129, 0.1);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+    }
+
+    .booking-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--gradient-success);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: var(--border-radius-lg);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .booking-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    .feature-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: var(--border-radius-xl);
+        padding: 2rem;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-xl);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 0.8s ease-out;
+        animation-fill-mode: both;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.3s; }
+    .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .feature-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.6s;
+    }
+
+    .feature-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .feature-card:hover::after {
+        left: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-xl), var(--shadow-glow);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .feature-card.profile::before { background: var(--gradient-primary); }
+    .feature-card.preferences::before { background: var(--gradient-secondary); }
+    .feature-card.matches::before { background: var(--gradient-success); }
+    .feature-card.chat::before { background: var(--gradient-warning); }
+
+    .card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: var(--border-radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--white);
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .card-icon::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover .card-icon::before {
+        opacity: 1;
+    }
+
+    .feature-card:hover .card-icon {
+        transform: rotate(5deg) scale(1.1);
+    }
+
+    .profile .card-icon { background: var(--gradient-primary); }
+    .preferences .card-icon { background: var(--gradient-secondary); }
+    .matches .card-icon { background: var(--gradient-success); }
+    .chat .card-icon { background: var(--gradient-warning); }
+
+    .card-content h3 {
+        font-size: 1.375rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.025em;
+    }
+
+    .card-content p {
+        font-size: 0.95rem;
+        color: var(--gray-700);
+        line-height: 1.6;
+        margin-bottom: 1.75rem;
+        opacity: 0.9;
+    }
+
+    .card-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 1rem 1.5rem;
+        background: var(--gray-900);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: var(--border-radius-lg);
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .card-button:hover::before {
+        left: 100%;
+    }
+
+    .card-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .profile .card-button { 
+        background: var(--gradient-primary);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .profile .card-button:hover { 
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        transform: translateY(-3px);
+    }
+
+    .preferences .card-button { 
+        background: var(--gradient-secondary);
+        box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+    }
+    .preferences .card-button:hover { 
+        box-shadow: 0 8px 25px rgba(240, 147, 251, 0.6);
+        transform: translateY(-3px);
+    }
+
+    .matches .card-button { 
+        background: var(--gradient-success);
+        box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+    }
+    .matches .card-button:hover { 
+        box-shadow: 0 8px 25px rgba(17, 153, 142, 0.6);
+        transform: translateY(-3px);
+    }
+
+    .chat .card-button { 
+        background: var(--gradient-warning);
+        box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+    }
+    .chat .card-button:hover { 
+        box-shadow: 0 8px 25px rgba(240, 147, 251, 0.6);
+        transform: translateY(-3px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1rem;
+        }
+
+        .dashboard-header {
+            padding: 2rem 1.5rem;
+        }
+
+        .header-nav {
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 1.75rem;
+        }
+
+        .card-icon {
+            width: 3rem;
+            height: 3rem;
+            font-size: 1.25rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .dashboard-header {
+            padding: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.25rem;
+        }
+
+        .card-content p {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Focus States */
+    .back-button:focus,
+    .card-button:focus {
+        outline: 2px solid rgba(102, 126, 234, 0.5);
+        outline-offset: 2px;
+    }
+
+    /* Loading Animation */
+    @keyframes cardLoad {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Hover Glow Effects */
+    .feature-card:hover {
+        animation: none;
+    }
+
+    .feature-card.profile:hover {
+        box-shadow: 
+            var(--shadow-xl), 
+            0 0 30px rgba(102, 126, 234, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-card.preferences:hover {
+        box-shadow: 
+            var(--shadow-xl), 
+            0 0 30px rgba(240, 147, 251, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-card.matches:hover {
+        box-shadow: 
+            var(--shadow-xl), 
+            0 0 30px rgba(17, 153, 142, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-card.chat:hover {
+        box-shadow: 
+            var(--shadow-xl), 
+            0 0 30px rgba(245, 87, 108, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Smooth Transitions */
+    * {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Performance Optimizations */
+    .feature-card,
+    .dashboard-header,
+    .card-button {
+        will-change: transform;
+    }
+
+    /* Accessibility Improvements */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    /* High Contrast Mode */
+    @media (prefers-contrast: high) {
+        .feature-card {
+            border: 2px solid var(--gray-800);
+        }
+        
+        .card-content h3,
+        .card-content p {
+            color: var(--gray-900);
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="header-nav">
+            <a href="{% url 'app_home' %}" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+            <div class="user-badge">
+                <i class="fas fa-user"></i>
+                <span>{{ request.user.username }}</span>
+            </div>
+        </div>
+
+        <div class="welcome-section">
+            <h1 class="page-title">Roommate Dashboard</h1>
+            <p class="page-subtitle">
+                Manage your profile, discover compatible roommates, and build meaningful connections for your ideal living situation.
+            </p>
+        </div>
+    </div>
+
+    <!-- Booking Status Section -->
+    {% if existing_booking %}
+        <div class="booking-status-card">
+            <div class="booking-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="booking-info">
+                <h3>Current Booking</h3>
+                <p>You have a bed booked in <strong>Room {{ existing_booking.room.room_number }}</strong></p>
+                <div class="booking-details">
+                    <span><i class="fas fa-bed"></i> {{ existing_booking.room.total_beds }} Sharing</span>
+                    <span><i class="fas fa-snowflake"></i> {{ existing_booking.room.ac_type }}</span>
+                    <span><i class="fas fa-venus-mars"></i> {{ existing_booking.room.gender }}</span>
+                </div>
+            </div>
+            <a href="/rooms/my-bookings/" class="booking-button">
+                <i class="fas fa-eye"></i>
+                View Details
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- Main Features -->
+    <div class="features-grid">
+        <!-- Profile Management -->
+        <div class="feature-card profile">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Profile Management</h3>
+                    <p>Create a compelling profile that showcases your personality, lifestyle, and preferences to attract compatible roommates.</p>
+                    <a href="{% url 'profile' %}" class="card-button">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit Profile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preferences Setup -->
+        <div class="feature-card preferences">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Preferences Setup</h3>
+                    <p>Define your living preferences, budget constraints, and roommate criteria to receive highly compatible matches.</p>
+                    <a href="{% url 'preferences' %}" class="card-button">
+                        <i class="fas fa-cog"></i>
+                        <span>Set Preferences</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Find Matches -->
+        <div class="feature-card matches">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Find Matches</h3>
+                    <p>Discover compatible roommates using our advanced matching algorithm based on lifestyle compatibility and preferences.</p>
+                    <a href="{% url 'find_matches' %}" class="card-button">
+                        <i class="fas fa-heart"></i>
+                        <span>Browse Matches</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messaging -->
+        <div class="feature-card chat">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Messaging</h3>
+                    <p>Connect with potential roommates through our secure messaging system to discuss arrangements and build relationships.</p>
+                    <a href="{% url 'chat_home' %}" class="card-button">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>View Messages</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+{% endblock %}
