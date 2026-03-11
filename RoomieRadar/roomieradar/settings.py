@@ -62,7 +62,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roomieradar.middleware.AdminRedirectMiddleware',  # Custom admin redirect
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+ALLOWED_HOSTS = ['*']
 
 # --------------------------------------------------
 # URL CONFIGURATION

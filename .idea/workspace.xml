@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ff569432-37ca-49d1-8cdb-d2d331f93b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar/middleware.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/accounts/emails.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/accounts/emails.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/base/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/base/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/base/migrations/0002_profile_email_token_profile_is_verified_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/base/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/base/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/chat/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/chat/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/chat/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/chat/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/chat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/chat/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/chat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/chat/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/home/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/home/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/home/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/roomieradar/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/roomieradar/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/roomieradar_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/accounts/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/accounts/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/accounts/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/accounts/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/base/app_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/base/app_home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/base/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/base/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/base/dashboard.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/email/activation_email.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/email/activation_email.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/home/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/home/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/roomieradar_app/matches.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/roomieradar_app/matches.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/rooms/booking_success.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/rooms/booking_success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/rooms/hostel_only.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/rooms/hostel_only.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RoomieRadar/templates/rooms/my_bookings.html" beforeDir="false" afterPath="$PROJECT_DIR$/RoomieRadar/templates/rooms/my_bookings.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/RoomieRadar" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="AISelfReview" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="36y4pmN0cMj0pswPGxPWAuK6eRF" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;New/updated database configurations found&quot;,
+    &quot;Notification.DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;roomieradar-project&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/RoomieRadar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\RoomieRadar\roomieradar\static\images" />
+      <recent name="D:\RoomieRadar\roomieradar\home" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\RoomieRadar\roomieradar\templates\base" />
+      <recent name="D:\RoomieRadar\roomieradar\home" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="RoomieRadar" type="Python.DjangoServer" factoryName="Django server" singleton="false">
+      <module name="RoomieRadar" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.14 (RoomieRadar)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-ca5e2b39c7df-6e1f45a539f7-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.29346.308" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ff569432-37ca-49d1-8cdb-d2d331f93b36" name="Changes" comment="" />
+      <created>1765965664240</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765965664240</updated>
+      <workItem from="1765965665368" duration="14529000" />
+      <workItem from="1765988770681" duration="611000" />
+      <workItem from="1766215465653" duration="11926000" />
+      <workItem from="1766237180577" duration="10286000" />
+      <workItem from="1766297998972" duration="178000" />
+      <workItem from="1766487049675" duration="2123000" />
+      <workItem from="1768293435563" duration="2209000" />
+      <workItem from="1768295704209" duration="662000" />
+      <workItem from="1768298093937" duration="13000" />
+      <workItem from="1768298131089" duration="7038000" />
+      <workItem from="1768554827312" duration="12208000" />
+      <workItem from="1769246424195" duration="669000" />
+      <workItem from="1769328888444" duration="1505000" />
+      <workItem from="1769335917558" duration="805000" />
+      <workItem from="1769342898362" duration="10204000" />
+      <workItem from="1769402669339" duration="5163000" />
+      <workItem from="1769655213490" duration="4141000" />
+      <workItem from="1770521150687" duration="2514000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
