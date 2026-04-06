@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: roomieradar
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn roomieradar.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: SITE_URL
+        value: https://roomieradar.onrender.com
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false

@@ -7,3 +7,4 @@ psycopg2-binary==2.9.9
 django-crispy-forms==2.1
 crispy-bootstrap4==2022.1
 django-jazzmin==2.6.0
+dj-database-url==2.1.0
