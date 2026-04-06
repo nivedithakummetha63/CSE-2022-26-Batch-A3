@@ -9,9 +9,21 @@ import os
 # --------------------------------------------------
 # BASE DIRECTORY
 # --------------------------------------------------
+import os
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    ...
+]
+ALLOWED_HOSTS = ['*']
 
 # --------------------------------------------------
 # SECURITY SETTINGS
@@ -23,10 +35,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
-# --------------------------------------------------
-# APPLICATION DEFINITION
-# --------------------------------------------------
 
 INSTALLED_APPS = [
     'jazzmin',

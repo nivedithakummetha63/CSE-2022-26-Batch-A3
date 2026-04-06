@@ -1,1 +1,1 @@
-web: gunicorn RoomieRadar.roomieradar.wsgi
+web: gunicorn RoomieRadar.wsgi
