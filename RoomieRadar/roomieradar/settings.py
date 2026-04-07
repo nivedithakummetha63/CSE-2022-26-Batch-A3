@@ -5,7 +5,6 @@ Institute-level Roomie Radar System
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # --------------------------------------------------
 # BASE DIRECTORY
@@ -18,21 +17,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY SETTINGS
 # --------------------------------------------------
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-roomieradar-local-dev-key')
+SECRET_KEY = 'django-insecure-roomieradar-local-dev-key'
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-
-# --------------------------------------------------
-# APPLICATION DEFINITION
-# --------------------------------------------------
 
 INSTALLED_APPS = [
-    # Jazzmin (must be before django.contrib.admin)
     'jazzmin',
-
+    
     # Django default apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,7 +50,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -65,7 +58,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'roomieradar.middleware.AdminRedirectMiddleware',  # Custom admin redirect
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+ALLOWED_HOSTS = ['*']
 
 # --------------------------------------------------
 # URL CONFIGURATION
@@ -103,14 +97,14 @@ WSGI_APPLICATION = 'roomieradar.wsgi.application'
 
 
 # --------------------------------------------------
-# DATABASE
+# DATABASE (SQLite – Institute Level)
 # --------------------------------------------------
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -144,7 +138,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
 # --------------------------------------------------
@@ -174,9 +167,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'nivedithakummetha@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'uyrsbufaazomitic')
-EMAIL_TIMEOUT = 30
+EMAIL_HOST_USER = 'nivedithakummetha@gmail.com'
+EMAIL_HOST_PASSWORD = 'uyrsbufaazomitic'
+
 
 # Custom sender name and email
 DEFAULT_FROM_EMAIL = 'Roomie Radar <noreply@roomieradar.com>'
@@ -191,7 +184,7 @@ ADMINS = [('Roomie Radar Admin', 'admin@roomieradar.com')]
 # SITE URL (Used in Email Links)
 # --------------------------------------------------
 
-SITE_URL = os.environ.get('SITE_URL', 'http://127.0.0.1:8000')
+SITE_URL = 'http://127.0.0.1:8000'
 
 
 # --------------------------------------------------
@@ -223,37 +216,37 @@ JAZZMIN_SETTINGS = {
     "site_logo": "images/logo.png",
     "site_logo_classes": "",
     "site_icon": None,
-
+    
     # Welcome text
     "welcome_sign": "Welcome to Roomie Radar Admin Dashboard",
-
+    
     # Copyright
     "copyright": "Roomie Radar © 2024",
-
+    
     # Search model
     "search_model": "auth.User",
-
+    
     # User avatar
     "user_avatar": None,
-
+    
     # Top menu
     "topmenu_links": [
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "View Site", "url": "/", "new_window": True},
         {"model": "auth.User"},
     ],
-
+    
     # User menu
     "usermenu_links": [
         {"model": "auth.user"}
     ],
-
+    
     # Side menu ordering
     "show_sidebar": True,
     "navigation_expanded": True,
     "hide_apps": [],
     "hide_models": [],
-
+    
     # Custom links
     "custom_links": {
         "accounts": [{
@@ -263,7 +256,7 @@ JAZZMIN_SETTINGS = {
             "permissions": ["auth.view_user"]
         }]
     },
-
+    
     # Icons for models
     "icons": {
         "auth": "fas fa-users-cog",
@@ -278,28 +271,28 @@ JAZZMIN_SETTINGS = {
         "roomieradar_app.Room": "fas fa-door-open",
         "roomieradar_app.Booking": "fas fa-calendar-check",
     },
-
+    
     # Default icon for models
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-circle",
-
+    
     # Related modal
     "related_modal_active": False,
-
+    
     # Custom CSS/JS
     "custom_css": "admin/css/custom_admin.css",
     "custom_js": None,
-
+    
     # Show language chooser
     "show_ui_builder": False,
-
+    
     # Change form templates
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {
         "auth.user": "collapsible",
         "auth.group": "vertical_tabs"
     },
-
+    
     # Language chooser
     "language_chooser": False,
 }
@@ -336,3 +329,5 @@ JAZZMIN_UI_TWEAKS = {
     },
     "actions_sticky_top": True
 }
+
+
