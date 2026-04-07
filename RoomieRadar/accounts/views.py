@@ -65,18 +65,13 @@ def register(request):
             is_verified=False
         )
 
-        # send activation email (wrapped to prevent crash if email fails)
-        try:
-            account_activation_email(email, str(email_token))
-            messages.success(
-                request,
-                "Account created successfully. Please check your email to activate your account."
-            )
-        except Exception:
-            messages.success(
-                request,
-                "Account created successfully. If you don't receive an email, contact support."
-            )
+        # send activation email - show exact error on login page
+        email_sent = account_activation_email(email, str(email_token))
+        if email_sent:
+            messages.success(request, "Account created! Please check your email to activate.")
+        else:
+            messages.warning(request, f"Account created but email failed. Activation token: {email_token} — Contact admin.")
+
         return redirect("login")
 
     return render(request, "accounts/register.html")
