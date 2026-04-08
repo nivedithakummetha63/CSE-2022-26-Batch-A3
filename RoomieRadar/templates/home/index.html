@@ -845,6 +845,10 @@
 <nav class="landing-nav">
     <div class="nav-container">
         <div class="logo">
+            {% load static %}
+            <img src="{% static 'images/srit.jpg' %}"
+                 alt="SRIT Logo"
+                 style="height:50px; width:50px; border-radius:50%; object-fit:cover;">
             <i class="fas fa-home"></i>
             Room mate Finder Portal
         </div>
@@ -1060,6 +1064,14 @@
             </div>
         </div>
         <div class="footer-bottom">
+            <div style="display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:15px;">
+                <img src="{% static 'images/srit.jpg' %}"
+                     alt="SRIT Logo"
+                     style="height:55px; width:55px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.3);">
+                <span style="color:rgba(255,255,255,0.8); font-size:0.95rem;">
+                    Srinivasa Ramanujan Institute of Technology 
+                </span>
+            </div>
             <p>&copy; 2026 Roomie Radar. All rights reserved by team A03 . Made with ❤️ for students.</p>
         </div>
     </div>
