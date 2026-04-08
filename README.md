@@ -56,16 +56,9 @@ The project is deployed using platforms like **Render**.
 ---
 
 ## 👩‍💻 Team Members
-- Niveditha Kummetha
-- Ajay Kumar
-- Sabitha Afrin
-
----
-
-## 📊 Work Distribution
-- **Backend & Logic:** Django models, matching algorithm, authentication  
-- **Frontend:** UI design and templates  
-- **Integration:** Messaging, email, deployment  
+- K Niveditha
+- P Ajay Kumar
+- A S Sabiha Afrin
 
 ---
 
